@@ -17,6 +17,8 @@ class CategoryController extends Controller
     public function getData()
     {
         // eloquent orm
+        // $category = Category::all();
+        // $category = Category::latest()->get();
         // $category = Category::orderBy('id', 'desc')->get();
         $category = Category::orderBy('id', 'desc')->paginate(5);
         // query builder

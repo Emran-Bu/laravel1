@@ -37,8 +37,8 @@
                                         @foreach ($category as $cat)
                                             <tr>
                                                 <td>{{ $category->firstItem() + $loop->index }}</td>
-                                                <td>{{ $cat->user_id }}</td>
-                                                <td>{{ $cat->cat_name; }}</td>
+                                                <td>{{ $cat->cat_name }}</td>
+                                                <td>{{ $cat->user_id; }}</td>
                                                 <td>
                                                     @if($cat->created_at == NULL)
                                                     <span class="text-danger">Date Not Found</span>
