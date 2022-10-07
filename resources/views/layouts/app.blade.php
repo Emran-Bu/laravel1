@@ -18,9 +18,9 @@
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
         {{-- Bootstrap link --}}
-        <link rel="stylesheet" href='css/bootstrap/css/bootstrap.min.css'>
+        <link rel="stylesheet" href='/css/bootstrap/css/bootstrap.min.css'>
 
-        <script src="css/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/css/bootstrap/js/bootstrap.min.js"></script>
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>

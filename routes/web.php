@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\siteController;
-
+use App\Models\Category;
 use App\Models\User;
 
 use Illuminate\Support\Facades\DB;
@@ -54,3 +54,7 @@ Route::middleware([
 Route::get('/category', [CategoryController::class, 'getData'])->name('category');
 
 Route::post('/add/category', [CategoryController::class, 'addCat'])->name('add.cat');
+
+Route::get('/edit/category/{id}', [CategoryController::class, 'editCat'])->name('edit.cat');
+
+Route::post('/update/category/{id}', [CategoryController::class, 'updateCat'])->name('update.cat');

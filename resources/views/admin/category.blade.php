@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Hi... {{ Auth::user()->name }}
+            Category
             <b class="float-end">Total Category <span class="badge bg-success">{{ count($category) }}</span></b>
         </h2>
     </x-slot>
@@ -31,6 +31,7 @@
                                         <th scope="col">Category Name</th>
                                         <th scope="col">User Name</th>
                                         <th scope="col">Created_at</th>
+                                        <th scope="col">Action</th>
                                       </tr>
                                     </thead>
                                     <tbody>
@@ -38,14 +39,19 @@
                                             <tr>
                                                 <td>{{ $category->firstItem() + $loop->index }}</td>
                                                 <td>{{ $cat->cat_name }}</td>
-                                                <td>{{ $cat->user_id; }}</td>
+                                                <td>{{ $cat->name; }}</td>
                                                 <td>
                                                     @if($cat->created_at == NULL)
                                                     <span class="text-danger">Date Not Found</span>
                                                     @else
                                                     {{ Carbon\Carbon::parse($cat->created_at)->diffForHumans() }}
                                                     @endif
-                                                    </td>
+                                                </td>
+                                                <td>
+                                                    {{-- {{ url('/edit/category/'. $cat->id) }} --}}
+                                                    <a href="{{ route('edit.cat', $cat->id) }}" class="btn btn-success btn-sm">Edit</a>
+                                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -31,8 +31,8 @@
                         @foreach ($user as $users )
                             <tr>
                                 <th scope="row">{{ $users->id }}</th>
-                                <td>{{ $users->email }}</td>
                                 <td>{{ $users->name }}</td>
+                                <td>{{ $users->email }}</td>
                                 {{-- <td>{{ $users->created_at }}</td> --}}
                                 <td>{{ $users->created_at }} &ensp; {{ Carbon\Carbon::parse($users->created_at)->diffForHumans() }}</td>
                             </tr>

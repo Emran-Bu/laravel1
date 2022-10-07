@@ -16,6 +16,7 @@ class Category extends Model
         'cat_name',
     ];
 
+    // join with eloquent orm
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');

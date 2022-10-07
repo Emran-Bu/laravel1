@@ -11,8 +11,12 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
 
+        {{-- Bootstrap link --}}
+        <link rel="stylesheet" href='/css/bootstrap/css/bootstrap.min.css'>
+
+        <script src="/css/bootstrap/js/bootstrap.min.js"></script>
+
         <!-- Styles -->
-        {{-- <link rel="stylesheet" href="css/app.css"> --}}
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
         <!-- Scripts -->
