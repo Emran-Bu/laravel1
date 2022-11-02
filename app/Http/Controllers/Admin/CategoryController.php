@@ -27,13 +27,16 @@ class CategoryController extends Controller
         // $category = DB::table('categories')->orderBy('id', 'desc')->paginate(2);
 
         // join with query builder
+
         $category = DB::table('categories')
                     ->join('users', 'categories.user_id', 'users.id')
                     ->select('categories.*', 'users.name')
                     ->orderBy('id', 'desc')
-                    ->paginate(5);
-        if ($category) {
-            return view('admin.category', compact('category'));
+                    ->paginate(3);
+
+        $trash = Category::onlyTrashed()->latest()->paginate(3);
+        if ($category || $trash) {
+            return view('admin.category', compact('category', 'trash'));
         } else {
             return view('admin.category');
         }
@@ -90,7 +93,11 @@ class CategoryController extends Controller
 
     public function editCat($id)
     {
-        $editItem = Category::find($id);
+        // eloquent orm
+
+        // $editItem = Category::find($id);
+
+        $editItem = DB::table('categories')->where('id', $id)->first();
         //  dd($editItem);
         if($editItem)
         return view('admin.categoryEdit', ['edit'=>$editItem]);
@@ -100,23 +107,26 @@ class CategoryController extends Controller
 
     public function updateCat(Request $request, $id)
     {
-        $update = Category::find($id);
 
         $validate = [
             'cat_name' => 'required',
-            'cat_name.required' => 'requiredftghjgf'
         ];
 
         $message = [
             'cat_name.required' => 'The name field is required.',
         ];
 
-        
+        // $request->validate([
+        //     'cat_name' => 'required',
+        // ]);
+
+
 
         // $validated = $request->only(['cat_name']);
         // $validated = $request->only(['cat_name','email']);
         // $validated = $request->except(['cat_name','email']);
         // $validated = $request->all();
+
         $validator = Validator::make($request->only(['cat_name']), $validate, $message);
 
         if($validator->fails())
@@ -124,7 +134,56 @@ class CategoryController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        return dd($update);
+
+
+        // category update in eloquent orm
+        // $update = Category::find($id);
+        // $update->cat_name = $request->cat_name;
+        // $update->user_id = auth()->id();
+        // $update->update();
+
+        // $update->update([
+        //     'cat_name' => $request->cat_name,
+        //     'user_id' => Auth::user()->id,
+        // ]);
+
+        // category update in query builder
+
+        $data = array();
+
+        $data['cat_name'] = $request->cat_name;
+        $data['user_id'] = Auth::user()->id;
+
+        DB::table('categories')->where('id', $id)->update($data);
+
+        //    DB::table('categories')->where('id', $id)->update([
+        //         'cat_name' => $request->cat_name,
+        //         'user_id' => Auth::user()->id,
+        //     ]);
+
+
+        // session()->flash('success', 'category update successfully.');
+        return redirect()->route('category')->with('success', 'category update successfully.');
 
     }
+
+    public function softDelete($id)
+    {
+        $softTrash = Category::find($id)->delete();
+        // $softTrash->delete();
+        return redirect()->back()->with('success', 'Category Moved in Recycle bin Successfully');
+    }
+
+    // public function restoreCat($id)
+    // {
+    //     $restore = Category::withTrashed()->find($id)->restore();
+    //     return redirect()->back()->with('success', 'Category Restored Successfully');
+    // }
+
+    // public function perDelete($id)
+    // {
+    //     $perDelete = Category::onlyTrashed()->find($id);
+    //     $perDelete->forceDelete();
+    //     return redirect()->back()->with('success', 'Category permanently Deleted Successfully');
+    // }
 }

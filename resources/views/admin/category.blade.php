@@ -8,6 +8,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            {{-- main container --}}
             <div class="container">
                 <div class="row">
                     <div class="col-sm-8">
@@ -50,7 +51,7 @@
                                                 <td>
                                                     {{-- {{ url('/edit/category/'. $cat->id) }} --}}
                                                     <a href="{{ route('edit.cat', $cat->id) }}" class="btn btn-success btn-sm">Edit</a>
-                                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                                                    <a href="{{ route('softDelete.cat', $cat->id) }}" class="btn btn-danger btn-sm">Delete</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -87,6 +88,79 @@
                 </div>
             </div>
 
+            {{-- reccycle bin area --}}
+
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col-sm-8">
+
+                        <div class="card shadow">
+                            <div class="card-header">
+                                <h4>Recycle bin</h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">#SL</th>
+                                        <th scope="col">Category Name</th>
+                                        <th scope="col">User Name</th>
+                                        <th scope="col">Created_at</th>
+                                        <th scope="col">Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($trash as $tr)
+                                            <tr>
+                                                <td>{{ $trash->firstItem() + $loop->index }}</td>
+                                                <td>{{ $tr->cat_name }}</td>
+                                                <td>{{ $tr->user->name; }}</td>
+                                                <td>
+                                                    @if($tr->created_at == NULL)
+                                                    <span class="text-danger">Date Not Found</span>
+                                                    @else
+                                                    {{ Carbon\Carbon::parse($tr->created_at)->diffForHumans() }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    {{-- {{ url('/edit/trash/'. $tr->id) }} --}}
+                                                    <a href="{{ route('restore.cat', $tr->id) }}" class="btn btn-info btn-sm">Restore</a>
+                                                    <a href="{{ route('perDelete.cat', $tr->id) }}" class="btn btn-danger btn-sm">Permanent Delete</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                {{ $trash->links() }}
+                            </div>
+                        </div>
+                    </div>
+                    {{-- <div class="col-sm-4">
+                        <div class="card shadow">
+                            <div class="card-header">
+                                <h4>Add Category</h4>
+                            </div>
+                            <div class="card-body">
+                                <form class="form" action="{{ route('add.cat') }}" method="post">
+                                    @csrf
+                                    <div class="form-group mb-2">
+                                        <label for="">Name</label>
+                                        <input class="form-control @error('cat_name')
+                                            is-invalid
+                                        @enderror " type="text" name="cat_name" id="">
+                                        @error('cat_name')
+                                            <span class="text-danger"><i>{{ $message }}</i></span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="btn btn-primary" type="submit" name="" id="" value="Submit">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div> --}}
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>

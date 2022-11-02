@@ -58,3 +58,9 @@ Route::post('/add/category', [CategoryController::class, 'addCat'])->name('add.c
 Route::get('/edit/category/{id}', [CategoryController::class, 'editCat'])->name('edit.cat');
 
 Route::post('/update/category/{id}', [CategoryController::class, 'updateCat'])->name('update.cat');
+
+Route::get('/softDelete/category/{id}', [CategoryController::class, 'softDelete'])->name('softDelete.cat');
+
+Route::get('/restore/category/{id}', [CategoryController::class, 'restoreCat'])->name('restore.cat');
+
+Route::get('/permanent/delete/category/{id}', [CategoryController::class, 'perDelete'])->name('perDelete.cat');
