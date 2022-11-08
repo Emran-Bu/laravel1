@@ -64,3 +64,5 @@ Route::get('/softDelete/category/{id}', [CategoryController::class, 'softDelete'
 Route::get('/restore/category/{id}', [CategoryController::class, 'restoreCat'])->name('restore.cat');
 
 Route::get('/permanent/delete/category/{id}', [CategoryController::class, 'perDelete'])->name('perDelete.cat');
+
+// Route::get('/all-brand', [])
