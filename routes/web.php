@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\brandController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\siteController;
@@ -65,4 +66,6 @@ Route::get('/restore/category/{id}', [CategoryController::class, 'restoreCat'])-
 
 Route::get('/permanent/delete/category/{id}', [CategoryController::class, 'perDelete'])->name('perDelete.cat');
 
-// Route::get('/all-brand', [])
+Route::get('/all-brand', [brandController::class, 'allBrand'])->name('allBrand');
+
+Route::post('/add-brand', [brandController::class, 'addBrand'])->name('add.brand');

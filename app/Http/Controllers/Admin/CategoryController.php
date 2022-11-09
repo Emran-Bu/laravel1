@@ -61,12 +61,16 @@ class CategoryController extends Controller
         //     'created_at' => Carbon::now(),
         // ]);
 
-        // eloquent orm 1st rule
+        // crated at time not auto fill
+
+        // eloquent orm 2nd rule
 
         $category = new Category();
         $category->user_id = Auth::user()->id;
         $category->cat_name = $request->cat_name;
         $category->save();
+
+        // created at time auto fill
 
         // query builder 1st rule
 
