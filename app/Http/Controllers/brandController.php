@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+date_default_timezone_set("Asia/Dhaka");
+
 use Illuminate\Http\Request;
 
 use App\Models\Brand;
@@ -24,6 +26,7 @@ class brandController extends Controller
 
     public function addBrand(Request $request)
     {
+
         // validation 1
 
         // $request->validate([
@@ -69,23 +72,23 @@ class brandController extends Controller
         // eloquent orm 1st rule
 
         // code for image upload
-
-        //
         // $ox = $brand_img->getClientMimeType();
+        // $nameGen = hexdec(uniqid());
 
         $brand_img = $request->file('brand_img');
-        echo $img_or_name = str_replace(' ',$brand_img->getClientOriginalName());
-        $img_ext = strtolower($brand_img->getClientOriginalExtension());
-        $nameGen = hexdec(uniqid());
-        $image_name = $nameGen . '.' . $img_ext;
-        // echo $request->name;
-        // return redirect()->back();
-
-        die();
+        $img_ext = $brand_img->getClientOriginalExtension();
+        $img_or_name = $brand_img->getClientOriginalName();
+        $divide_name = current(explode('.',$img_or_name));
+        $nameGen = preg_replace('/[^A-Za-z0-9\-]/', '_' ,$divide_name);
+        $date_img_name = date('d_m_y_h_i_sa_');
+        $up_location = "images/brand/";
+        $image_name = $date_img_name . $nameGen . '.' . $img_ext;
+        $final_db_upload = $up_location . $date_img_name . $nameGen . '.' . $img_ext;
+        $brand_img->move($up_location, $image_name);
 
         $brand = new Brand();
         $brand->brand_name = $request->brand_name;
-        $brand->brand_img = $request->brand_img;
+        $brand->brand_img = $final_db_upload;
 
         $brand->save();
 
@@ -95,7 +98,7 @@ class brandController extends Controller
 
         // Brand::insert([
         //     "brand_name" => $request->brand_name,
-        //     "brand_img" => $request->bran,
+        //     "brand_img" => $final_db_upload,
         //     "created_at" => Carbon::now(),
         //     "updated_at" => Carbon::now()
         // ]);
@@ -104,7 +107,7 @@ class brandController extends Controller
 
         // DB::table('brands')->insert([
         //     'brand_name' => $request->brand_name,
-        //     'brand_img' => $request->bran,
+        //     'brand_img' => $final_db_upload,
         //     'created_at' => Carbon::now(),
         //     'updated_at' => Carbon::now()
         // ]);
@@ -114,7 +117,7 @@ class brandController extends Controller
         // $data = array();
 
         // $data['brand_name'] = $request->brand_name;
-        // $data['brand_img'] = $request->brand_img;
+        // $data['brand_img'] = $final_db_upload;
         // $data['created_at'] = Carbon::now();
         // $data['updated_at'] = Carbon::now();
 

@@ -40,7 +40,7 @@
                                             <tr>
                                                 <td>{{ $brand->firstItem() + $loop->index }}</td>
                                                 <td>{{ $bra->brand_name }}</td>
-                                                <td>{{ $bra->brand_image; }}</td>
+                                                <td><img src="{{ asset($bra->brand_img); }}" alt="" style="height: 70px !important" width="100px"></td>
                                                 <td>
                                                     @if($bra->created_at == NULL)
                                                     <span class="text-danger">Date Not Found</span>
