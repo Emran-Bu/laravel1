@@ -50,8 +50,8 @@
                                                 </td>
                                                 <td>
                                                     {{-- {{ url('/edit/category/'. $cat->id) }} --}}
-                                                    <a href="" class="btn btn-success btn-sm">Edit</a>
-                                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                                                    <a href="{{ route('brand.edit', $bra->id) }}" class="btn btn-success btn-sm">Edit</a>
+                                                    <a href="{{ route('brand.restore'), $bra->id }}" class="btn btn-danger btn-sm">Restore</a>
                                                 </td>
                                             </tr>
                                         @endforeach

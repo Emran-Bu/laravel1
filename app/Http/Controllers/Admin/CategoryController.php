@@ -20,19 +20,20 @@ class CategoryController extends Controller
         // eloquent orm
         // $category = Category::all();
         // $category = Category::latest()->get();
+        $category = Category::latest()->paginate(3);
         // $category = Category::orderBy('id', 'desc')->get();
-        // $category = Category::orderBy('id', 'desc')->paginate(5);
+        // $category = Category::orderBy('id', 'desc')->paginate(3);
         // query builder
         // $category = DB::table('categories')->orderBy('id', 'desc')->get();
         // $category = DB::table('categories')->orderBy('id', 'desc')->paginate(2);
 
         // join with query builder
 
-        $category = DB::table('categories')
-                    ->join('users', 'categories.user_id', 'users.id')
-                    ->select('categories.*', 'users.name')
-                    ->orderBy('id', 'desc')
-                    ->paginate(3);
+        // $category = DB::table('categories')
+        //             ->join('users', 'categories.user_id', 'users.id')
+        //             ->select('categories.*', 'users.name')
+        //             ->orderBy('id', 'desc')
+        //             ->paginate(3);
 
         $trash = Category::onlyTrashed()->latest()->paginate(3);
         if ($category || $trash) {
@@ -173,21 +174,20 @@ class CategoryController extends Controller
 
     public function softDelete($id)
     {
-        $softTrash = Category::find($id)->delete();
-        // $softTrash->delete();
+        Category::find($id)->delete();
         return redirect()->back()->with('success', 'Category Moved in Recycle bin Successfully');
     }
 
-    // public function restoreCat($id)
-    // {
-    //     $restore = Category::withTrashed()->find($id)->restore();
-    //     return redirect()->back()->with('success', 'Category Restored Successfully');
-    // }
+    public function restoreCat($id)
+    {
+        $restore = Category::withTrashed()->find($id)->restore();
+        return redirect()->back()->with('success', 'Category Restored Successfully');
+    }
 
-    // public function perDelete($id)
-    // {
-    //     $perDelete = Category::onlyTrashed()->find($id);
-    //     $perDelete->forceDelete();
-    //     return redirect()->back()->with('success', 'Category permanently Deleted Successfully');
-    // }
+    public function perDelete($id)
+    {
+        $perDelete = Category::onlyTrashed()->find($id);
+        $perDelete->forceDelete();
+        return redirect()->back()->with('success', 'Category permanently Deleted Successfully');
+    }
 }

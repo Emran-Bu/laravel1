@@ -66,6 +66,13 @@ Route::get('/restore/category/{id}', [CategoryController::class, 'restoreCat'])-
 
 Route::get('/permanent/delete/category/{id}', [CategoryController::class, 'perDelete'])->name('perDelete.cat');
 
+// brand
 Route::get('/all-brand', [brandController::class, 'allBrand'])->name('allBrand');
 
 Route::post('/add-brand', [brandController::class, 'addBrand'])->name('add.brand');
+
+Route::get('/edit/brand/{id}', [brandController::class, 'editBrand'])->name('brand.edit');
+
+Route::post('/update/brand/{id}', [brandController::class, 'updateBrand'])->name('update.brand');
+
+Route::get('/brand/restore/{id}', [brandController::class, 'softDelete'])->name('brand.restore');

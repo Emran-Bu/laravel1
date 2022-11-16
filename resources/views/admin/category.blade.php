@@ -40,7 +40,8 @@
                                             <tr>
                                                 <td>{{ $category->firstItem() + $loop->index }}</td>
                                                 <td>{{ $cat->cat_name }}</td>
-                                                <td>{{ $cat->name; }}</td>
+                                                <td>{{ $cat->user->name; }}</td>
+                                                {{-- <td>{{ $cat->name; }}</td> --}}
                                                 <td>
                                                     @if($cat->created_at == NULL)
                                                     <span class="text-danger">Date Not Found</span>
@@ -90,6 +91,8 @@
 
             {{-- reccycle bin area --}}
 
+            @if(isset($trash[0]['cat_name']))
+
             <div class="container mt-3">
                 <div class="row">
                     <div class="col-sm-8">
@@ -135,32 +138,10 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-sm-4">
-                        <div class="card shadow">
-                            <div class="card-header">
-                                <h4>Add Category</h4>
-                            </div>
-                            <div class="card-body">
-                                <form class="form" action="{{ route('add.cat') }}" method="post">
-                                    @csrf
-                                    <div class="form-group mb-2">
-                                        <label for="">Name</label>
-                                        <input class="form-control @error('cat_name')
-                                            is-invalid
-                                        @enderror " type="text" name="cat_name" id="">
-                                        @error('cat_name')
-                                            <span class="text-danger"><i>{{ $message }}</i></span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <input class="btn btn-primary" type="submit" name="" id="" value="Submit">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
+            @endif
+
         </div>
     </div>
 </x-app-layout>

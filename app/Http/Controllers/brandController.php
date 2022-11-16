@@ -21,6 +21,12 @@ class brandController extends Controller
     {
         // brandIndex
         $brand = Brand::paginate(2);
+        // $brand = Brand::all();
+        // $brand = Brand::latest()->get();
+        // $brand = Brand::latest()->get();
+        // $brand = Brand::orderBy('id','desc')->get();
+        // $brand = Brand::orderBy('id','desc')->paginate(3);
+        // $brand = DB::table('Brand')->orderBy('id','desc')->paginate(3);
         return view('admin.brand.brandIndex', compact('brand'));
     }
 
@@ -124,5 +130,64 @@ class brandController extends Controller
         // DB::insert($data);
 
 
+    }
+
+    public function editBrand($id)
+    {
+        $brand = Brand::find($id);
+        // return view('admin.brand.brandEdit', compact('brand'));
+        // $brand = DB::table('brands')->where('id', $id)->first();
+        if ($brand) {
+            return view('admin.brand.brandEdit', ['brand'=>$brand]);
+        } else{
+            return redirect()->back();
+        }
+
+    }
+
+    public function updateBrand(Request $request, $id)
+    {
+        $request->validate([
+            "brand_name" => "required"
+        ],
+        [
+            "brand_name.required" => "Please Fill the field"
+        ]);
+
+        $brand_img = $request->file('brand_img');
+        if ($brand_img) {
+
+            $old_image = $request->old_image;
+            if ($old_image) {
+                unlink($old_image);
+            }
+
+            $img_ext = $brand_img->getClientOriginalExtension();
+            $img_or_name = $brand_img->getClientOriginalName();
+            $divide_name = current(explode('.',$img_or_name));
+            $nameGen = preg_replace('/[^A-Za-z0-9\-]/', '_' ,$divide_name);
+            $date_img_name = date('d_m_y_h_i_sa_');
+            $up_location = "images/brand/";
+            $image_name = $date_img_name . $nameGen . '.' . $img_ext;
+            $final_db_upload = $up_location . $date_img_name . $nameGen . '.' . $img_ext;
+            $brand_img->move($up_location, $image_name);
+
+            $brand = Brand::find($id);
+            $brand->brand_name = $request->brand_name;
+            $brand->brand_img = $final_db_upload;
+            $brand->update();
+            return redirect()->route('allBrand')->with('success', 'Brand Updated Successfully...');
+        } else {
+            $brand = Brand::find($id);
+            $brand->brand_name = $request->brand_name;
+            $brand->update();
+            return redirect()->route('allBrand')->with('success', 'Brand Updated Successfully...');
+        }
+
+    }
+
+    public function softDelete($id)
+    {
+        
     }
 }
