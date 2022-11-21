@@ -9,9 +9,16 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             {{-- main container --}}
+            @if($category[0])
+
             <div class="container">
                 <div class="row">
+                    {{-- <div class="col-sm-8"> --}}
+                    @if($category[0])
                     <div class="col-sm-8">
+                        @else
+                        <div class="">
+                    @endif
                     @if(session('success'))
                         <div class="alert alert-success alert-dismissible fade show p-2 d-flex align-items-center" role="alert">
                             <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>&emsp;
@@ -20,6 +27,8 @@
                             </button>
                         </div>
                     @endif
+
+                    @if($category[0])
                         <div class="card shadow">
                             <div class="card-header">
                                 <h4>All Category</h4>
@@ -61,8 +70,11 @@
                                 {{ $category->links() }}
                             </div>
                         </div>
+                    @endif
                     </div>
-                    <div class="col-sm-4">
+            @endif
+
+                    <div class=@if($category[0]) "col-sm-4" @else "col-sm-8" @endif>
                         <div class="card shadow">
                             <div class="card-header">
                                 <h4>Add Category</h4>
@@ -99,7 +111,7 @@
 
                         <div class="card shadow">
                             <div class="card-header">
-                                <h4>Recycle bin</h4>
+                                <h4>Category Recycle bin</h4>
                             </div>
                             <div class="card-body">
                                 <table class="table">

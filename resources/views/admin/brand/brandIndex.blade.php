@@ -11,7 +11,12 @@
             {{-- main container --}}
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-8">
+                    {{-- <div class="col-sm-8"> --}}
+                        @if($brand[0])
+                        <div class="col-sm-8">
+                            @else
+                            <div class="">
+                        @endif
                     @if(session('success'))
                         <div class="alert alert-success alert-dismissible fade show p-2 d-flex align-items-center" role="alert">
                             <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>&emsp;
@@ -20,6 +25,8 @@
                             </button>
                         </div>
                     @endif
+                    @if($brand[0])
+
                         <div class="card shadow">
                             <div class="card-header">
                                 <h4>All Brand</h4>
@@ -51,7 +58,7 @@
                                                 <td>
                                                     {{-- {{ url('/edit/category/'. $cat->id) }} --}}
                                                     <a href="{{ route('brand.edit', $bra->id) }}" class="btn btn-success btn-sm">Edit</a>
-                                                    <a href="{{ route('brand.restore'), $bra->id }}" class="btn btn-danger btn-sm">Restore</a>
+                                                    <a href="{{ route('brand.softDelete', $bra->id) }}" class="btn btn-danger btn-sm">Delete</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -60,8 +67,10 @@
                                 {{ $brand->links() }}
                             </div>
                         </div>
+                        @endif
                     </div>
-                    <div class="col-sm-4">
+                    {{-- @php ($brand[0]) ? "col-sm-2" : "col-sm-4"; @endphp --}}
+                    <div class=@if($brand[0]) "col-sm-4" @else "col-sm-8" @endif>
                         <div class="card shadow">
                             <div class="card-header">
                                 <h4>Add Brand</h4>
@@ -93,11 +102,62 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
             {{-- reccycle bin area --}}
 
+            @if($trashed[0])
+
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="card shadow">
+                            <div class="card-header">
+                                <h4>Brand Recycle Bin</h4>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">#SL</th>
+                                        <th scope="col">Brand Name</th>
+                                        <th scope="col">Brand Image</th>
+                                        <th scope="col">Created_at</th>
+                                        <th scope="col">Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($trashed as $trash)
+                                            <tr>
+                                                <td>{{ $trashed->firstItem() + $loop->index }}</td>
+                                                <td>{{ $trash->brand_name }}</td>
+                                                <td><img src="{{ asset($trash->brand_img); }}" alt="" style="height: 70px !important" width="100px"></td>
+                                                <td>
+                                                    @if($trash->created_at == NULL)
+                                                    <span class="text-danger">Date Not Found</span>
+                                                    @else
+                                                    {{ Carbon\Carbon::parse($trash->created_at)->diffForHumans() }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    {{-- {{ url('/edit/category/'. $cat->id) }} --}}
+                                                    <a href="{{ route('brand.restore', $trash->id) }}" class="btn btn-success btn-sm">Restore</a>
+                                                    <a href="{{ route('brand.perDelete', $trash->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are You sure Parmanent Delete?')">Permanent Delete</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                {{ $brand->links() }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            @endif
 
         </div>
     </div>

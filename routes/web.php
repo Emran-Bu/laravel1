@@ -75,4 +75,8 @@ Route::get('/edit/brand/{id}', [brandController::class, 'editBrand'])->name('bra
 
 Route::post('/update/brand/{id}', [brandController::class, 'updateBrand'])->name('update.brand');
 
-Route::get('/brand/restore/{id}', [brandController::class, 'softDelete'])->name('brand.restore');
+Route::get('/brand/softDelete/{id}', [brandController::class, 'softDelete'])->name('brand.softDelete');
+
+Route::get('/brand/restore/{id}', [brandController::class, 'restoreBrand'])->name('brand.restore');
+
+Route::get('/brand/perDelete/{id}', [brandController::class, 'perDelete'])->name('brand.perDelete');

@@ -20,14 +20,23 @@ class brandController extends Controller
     public function allBrand()
     {
         // brandIndex
-        $brand = Brand::paginate(2);
+        // $brand = Brand::paginate(2);
         // $brand = Brand::all();
-        // $brand = Brand::latest()->get();
+        $brand = Brand::latest()->paginate(2);
         // $brand = Brand::latest()->get();
         // $brand = Brand::orderBy('id','desc')->get();
         // $brand = Brand::orderBy('id','desc')->paginate(3);
         // $brand = DB::table('Brand')->orderBy('id','desc')->paginate(3);
-        return view('admin.brand.brandIndex', compact('brand'));
+
+        $trashed = Brand::onlyTrashed()->latest()->paginate(2);
+
+        if ($brand or $trashed) {
+            return view('admin.brand.brandIndex', compact('brand', 'trashed'));
+        } else {
+            return redirect()->route('dashboard');
+        }
+
+
     }
 
     public function addBrand(Request $request)
@@ -188,6 +197,35 @@ class brandController extends Controller
 
     public function softDelete($id)
     {
-        
+        Brand::find($id)->delete();
+        return redirect()->back()->with('success', 'Brand Moved in Recycle bin Successfully');
+    }
+
+    public function restoreBrand($id)
+    {
+        Brand::withTrashed()->find($id)->restore();
+        return redirect()->back()->with('success', 'Brand Restored Successfully');
+    }
+
+    public function perDelete($id)
+    {
+        // only for trashed or restore image delete
+        $perDelete = Brand::onlyTrashed()->find($id);
+        $image = $perDelete->brand_img;
+        if ($image) {
+            unlink($image);
+        }
+        $perDelete->forceDelete();
+        return redirect()->back()->with('success', 'Brand permanently Deleted Successfully');
+
+        // only for normal image delete
+
+        // $perDelete = Brand::find($id);
+        // $image = $perDelete->brand_img;
+        // if ($image) {
+        //     unlink($image);
+        // }
+        // Brand::find($id)->delete();
+        // return redirect()->back()->with('success', 'Brand permanently Deleted Successfully');
     }
 }
