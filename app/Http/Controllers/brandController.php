@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Parser\Multiple;
 
 class brandController extends Controller
 {
@@ -227,5 +228,14 @@ class brandController extends Controller
         // }
         // Brand::find($id)->delete();
         // return redirect()->back()->with('success', 'Brand permanently Deleted Successfully');
+    }
+
+
+
+    // multipleImage upload part
+
+    public function multipleImage()
+    {
+        return view('multiple.multiple');
     }
 }

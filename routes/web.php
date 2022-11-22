@@ -80,3 +80,5 @@ Route::get('/brand/softDelete/{id}', [brandController::class, 'softDelete'])->na
 Route::get('/brand/restore/{id}', [brandController::class, 'restoreBrand'])->name('brand.restore');
 
 Route::get('/brand/perDelete/{id}', [brandController::class, 'perDelete'])->name('brand.perDelete');
+
+Route::get('/multiple/image', [brandController::class, 'multipleImage'])->name('brand.multipleImage');
