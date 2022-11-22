@@ -1,43 +1,80 @@
-{{-- {{ dd($edit) }} --}}
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Category
+            Brand
+            {{-- <b class="float-end">Total Brand <span class="badge bg-success">{{ count($brand) }}</span></b> --}}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            {{-- main container --}}
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-8">
+                    {{-- <div class="col-sm-8"> --}}
+                        @if(isset($multiple[0]['image']))
+                        <div class="col-sm-8">
+                            @else
+                            <div class="">
+                        @endif
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show p-2 d-flex align-items-center" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>&emsp;
+                            <strong class="fs-5">{{ session('success') }}</strong>
+                            <button type="button" class="btn-close pt-1" data-bs-dismiss="alert">
+                            </button>
+                        </div>
+                    @endif
+                    @if(isset($multiple[0]['image']))
+
                         <div class="card shadow">
                             <div class="card-header">
-                                <h4>Update Category</h4>
+                                <h4>All Brand</h4>
                             </div>
                             <div class="card-body">
-                                <form class="form" action="{{ route('update.cat', $edit->id) }}" method="post">
+
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                    {{-- @php ($brand[0]) ? "col-sm-2" : "col-sm-4"; @endphp --}}
+                    <div class=@if(isset($multiple[0]['image'])) "col-sm-4" @else "col-sm-8" @endif>
+                        <div class="card shadow">
+                            <div class="card-header">
+                                <h4>Add Brand</h4>
+                            </div>
+                            <div class="card-body">
+                                <form class="form" action="{{ route('add.brand') }}" method="post" enctype="multipart/form-data">
                                     @csrf
-                                    {{-- @method('put') --}}
                                     <div class="form-group mb-2">
-                                        <label for="">Name</label>
-                                        <input class="form-control @error('cat_name')
+                                        <label for="">Brand Name</label>
+                                        <input class="form-control @error('brand_name')
                                             is-invalid
-                                        @enderror " type="text" name="cat_name" id=""  value="{{ $edit->cat_name }}">
-                                        @error('cat_name')
+                                        @enderror " type="text" name="brand_name" id="" value="{{ old('brand_name') }}">
+                                        @error('brand_name')
+                                            <span class="text-danger"><i>{{ $message }}</i></span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group mb-2">
+                                        <label for="">Brand Image</label>
+                                        <input class="form-control @error('brand_img') is-invalid @enderror" type="file" name="brand_img" id="">
+                                        @error('brand_img')
                                             <span class="text-danger"><i>{{ $message }}</i></span>
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <input class="btn btn-primary" type="submit" name="" id="" value="Update">
+                                        <input class="btn btn-primary" type="submit" name="" id="" value="Submit">
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
+
+
 
         </div>
     </div>

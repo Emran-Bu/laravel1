@@ -12,8 +12,10 @@ use Carbon\Carbon;
 
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Multiple;
+
 use Illuminate\Support\Facades\Validator;
-use PhpParser\Parser\Multiple;
+// use PhpParser\Parser\Multiple;
 
 class brandController extends Controller
 {
@@ -236,6 +238,7 @@ class brandController extends Controller
 
     public function multipleImage()
     {
-        return view('multiple.multiple');
+        $multiple = Multiple::all();
+        return view('admin.brand.multiple.multiple', compact('multiple'));
     }
 }
