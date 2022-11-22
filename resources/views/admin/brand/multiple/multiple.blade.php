@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Brand
-            {{-- <b class="float-end">Total Brand <span class="badge bg-success">{{ count($brand) }}</span></b> --}}
+            All Images
+            <b class="float-end">Total Brand <span class="badge bg-success">{{ count($multiple) }}</span></b>
         </h2>
     </x-slot>
 
@@ -29,43 +29,38 @@
 
                         <div class="card shadow">
                             <div class="card-header">
-                                <h4>All Brand</h4>
+                                <h4>All Images</h4>
                             </div>
                             <div class="card-body">
-
+                                @foreach ($multiple as $multi)
+                                    <img src="{{ asset($multi->image) }}" alt="image" srcset="" class="img-thumbnail img-fluid d-inline-block m-2" style="height: 200px !important; width:200px !important;">
+                                @endforeach
                             </div>
                         </div>
+
                         @endif
                     </div>
                     {{-- @php ($brand[0]) ? "col-sm-2" : "col-sm-4"; @endphp --}}
                     <div class=@if(isset($multiple[0]['image'])) "col-sm-4" @else "col-sm-8" @endif>
                         <div class="card shadow">
                             <div class="card-header">
-                                <h4>Add Brand</h4>
+                                <h4>Add Multiple Images</h4>
                             </div>
                             <div class="card-body">
-                                <form class="form" action="{{ route('add.brand') }}" method="post" enctype="multipart/form-data">
+                                <form class="form" action="{{ route('add.multipic') }}" method="post" enctype="multipart/form-data">
                                     @csrf
-                                    <div class="form-group mb-2">
-                                        <label for="">Brand Name</label>
-                                        <input class="form-control @error('brand_name')
-                                            is-invalid
-                                        @enderror " type="text" name="brand_name" id="" value="{{ old('brand_name') }}">
-                                        @error('brand_name')
-                                            <span class="text-danger"><i>{{ $message }}</i></span>
-                                        @enderror
-                                    </div>
 
                                     <div class="form-group mb-2">
-                                        <label for="">Brand Image</label>
-                                        <input class="form-control @error('brand_img') is-invalid @enderror" type="file" name="brand_img" id="">
-                                        @error('brand_img')
+                                        <label for="">Image</label>
+                                        <input class="form-control @error('image') is-invalid @enderror" type="file" name="image[]" id="" multiple>
+                                        @error('image')
                                             <span class="text-danger"><i>{{ $message }}</i></span>
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <input class="btn btn-primary" type="submit" name="" id="" value="Submit">
+                                        <input class="btn btn-primary" type="submit" name="" id="" value="save">
                                     </div>
+
                                 </form>
                             </div>
                         </div>

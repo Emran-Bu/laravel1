@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\Multiple;
 
+use Image;
+
 use Illuminate\Support\Facades\Validator;
 // use PhpParser\Parser\Multiple;
 
@@ -240,5 +242,32 @@ class brandController extends Controller
     {
         $multiple = Multiple::all();
         return view('admin.brand.multiple.multiple', compact('multiple'));
+    }
+
+    public function multipic(Request $request)
+    {
+        $images = $request->file('image');
+
+        foreach($images as $image)
+        {
+            $img_ext = $image->getClientOriginalExtension();
+
+            $img_or_name = $image->getClientOriginalName();
+            $divide_name = current(explode('.',$img_or_name));
+            $nameGen = preg_replace('/[^A-Za-z0-9\-]/', '_' ,$divide_name);
+            $date_img_name = date('d_m_y_h_i_sa_');
+            $up_location = "images/multipic/";
+            $image_name = $date_img_name . $nameGen . '.' . $img_ext;
+            $final_db_upload = $up_location . $date_img_name . $nameGen . '.' . $img_ext;
+
+            $image->move($up_location, $image_name);
+
+            $multipic = new Multiple();
+            $multipic->image = $final_db_upload;
+            $multipic->save();
+
+        }
+
+        return redirect()->back()->with('success', 'Multiple images added Successfully...');
     }
 }

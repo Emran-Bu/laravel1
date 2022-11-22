@@ -82,3 +82,5 @@ Route::get('/brand/restore/{id}', [brandController::class, 'restoreBrand'])->nam
 Route::get('/brand/perDelete/{id}', [brandController::class, 'perDelete'])->name('brand.perDelete');
 
 Route::get('/multiple/image/upload', [brandController::class, 'multipleImage'])->name('brand.multipleImage');
+
+Route::post('/upload/multiImage', [brandController::class, 'multipic'])->name('add.multipic');
